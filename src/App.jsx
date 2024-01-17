@@ -11,19 +11,19 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setGroups } from "./Store/Slices/group";
 
-
 function App() {
+    const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
+    useEffect(() => {
+        (async function () {
+            if (localTokenKey) {
+                const { data: groupss } = await axios.get(`/groups`);
+                dispatch(setGroups(groupss));
+            }
+        })();
+    });
 
-  useEffect(() => {
-    (async function () {
-      if (localTokenKey) {
-        const { data: groupss } = await axios.get(`/groups`)
-        dispatch(setGroups(groupss))
-      }
-    }) ();
-  })
+  
     return (
         <>
             <Routes>

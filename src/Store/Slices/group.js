@@ -9,6 +9,9 @@ const groupSlice = createSlice({
     setGroups(_state, action) {
       return action.payload;
     },
+    setItems(_state, action) {
+      return action.payload;
+    },
   },
 });
 
@@ -18,4 +21,5 @@ export default groupReducer;
 
 export const {
   setGroups,
+  setItems,
 } = groupSlice.actions;

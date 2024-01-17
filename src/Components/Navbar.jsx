@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const Navbar = () => {
     const { data: users, isLoading } = useFetch("/auth");
-    console.log(users);
+    // console.log(users);
 
     const navigate = useNavigate();
 

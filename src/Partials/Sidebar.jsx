@@ -7,7 +7,6 @@ import Popover from "react-bootstrap/Popover";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { reqTokenHederKey } from "../constants";
-import { useSelector } from "react-redux";
 
 
 const Sidebar = () => {
@@ -16,9 +15,9 @@ const Sidebar = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
     const navigate = useNavigate();
 
+    ////////////////////////////////////////// Create group button ///////////////////////////////////////////////////
     async function handleCreateGroup(e) {
         e.preventDefault();
         if (!name) return toast("Name is required!", { type: "error" });
@@ -35,7 +34,7 @@ const Sidebar = () => {
 
             toast("Group created successfully", { type: "success" });
             axios.defaults.headers.common[reqTokenHederKey] = token;
-            navigate("/main/groups");
+            navigate("/groups");
         } catch (error) {
             if (error.response.status === 400) {
                 error.response.data.errors.forEach((err) =>
@@ -49,6 +48,7 @@ const Sidebar = () => {
         }
     }
 
+    ////////////////////////////////////// Popover ///////////////////////////////////////////////////
     const popover = (
         <Popover id="popover-basic">
             <Popover.Header as="h2">Groups name and password</Popover.Header>
@@ -86,20 +86,13 @@ const Sidebar = () => {
         </Popover>
     );
 
+    ///////////////////// Totggle button function ////////////////////////////////
     const [isClassApplied, setIsClassApplied] = useState(false);
-
     const handleToggleClass = () => {
         setIsClassApplied(!isClassApplied);
     };
     
-    const { groupId } = useParams();
-    const groupss = useSelector((store) => store.group.groupss);
-    console.log(groupss);
-    const group = groupss?.map((g) => {
-        if (g._id === groupId) {
-            return g;
-        }
-    });
+
     return (
         <aside className="text-white h-100 border-end py-3 bg-white overflow-auto">
             {isLoading ? (

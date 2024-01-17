@@ -11,7 +11,7 @@ const MainPage = () => {
     const navigate = useNavigate();
     // const dispatch = useDispatch();
     const { data: users, isLoading } = useFetch("/auth");
-    console.log(users);
+    // console.log(users);
 
     const handleCopyUsername = async () => {
 
