@@ -20,8 +20,8 @@ const MainLayout = () => {
     Promise.all(queries).then(
       ([{ data: usersData }, { data: productsData }, { data: ordersData }]) => {
         dispatch(setUser(usersData));
-        setProducts(productsData);
-        setOrders(ordersData);
+        // setProducts(productsData);
+        // setOrders(ordersData);
       }
     );
   }, [dispatch]);

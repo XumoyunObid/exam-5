@@ -5,7 +5,7 @@ import axios from "axios";
 import { localTokenKey, reqTokenHederKey } from "../constants";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Login = () => {
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -93,4 +93,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default Login;

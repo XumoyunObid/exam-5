@@ -5,6 +5,7 @@ import useFetch from "./../Hooks/useFetch";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import { localTokenKey } from "../constants";
+import { toast } from "react-toastify";
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ const MainPage = () => {
             },
           });
 
+          toast("Account deleted successfully", { type: "success" });
           localStorage.clear(localTokenKey)
           navigate('/login');
           console.log('Account deleted successfully');

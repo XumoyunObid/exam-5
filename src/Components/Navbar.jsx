@@ -1,7 +1,26 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
+import useFetch from "../Hooks/useFetch";
+import { localTokenKey } from "../constants";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+    const { data: users, isLoading } = useFetch("/auth");
+    console.log(users);
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            localStorage.clear(localTokenKey);
+            toast("Logged out successfully", { type: "success" });
+            navigate("/login");
+            console.log("Logged out successfully");
+        } catch (error) {
+            console.error("Error deleting account:", error.message);
+        }
+    };
+
     return (
         <nav className="d-flex justify-content-between align-items-center container-fluid">
             <div className="d-flex align-items-center gap-4">
@@ -23,10 +42,10 @@ const Navbar = () => {
                 </li>
                 <li className="position-relative">
                     <button className="btn rounded-circle">
-                    <i className="fa-regular fa-bell"></i>
-                    <span className="badge bg-danger position-absolute rounded-pill">
-                        9+
-                    </span>
+                        <i className="fa-regular fa-bell"></i>
+                        <span className="badge bg-danger position-absolute rounded-pill">
+                            9+
+                        </span>
                     </button>
                 </li>
                 <li>
@@ -36,8 +55,19 @@ const Navbar = () => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">
-                                Logout
+                            <Dropdown.Item>
+                                <button
+                                    className="btn btn-light w-100 text-start"
+                                    onClick={handleLogout}
+                                >
+                                    <Link
+                                        className="text-decoration-none text-dark"
+                                        role="button"
+                                        to={"/login"}
+                                    >
+                                        Logout
+                                    </Link>
+                                </button>
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

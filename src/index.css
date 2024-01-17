@@ -24,3 +24,11 @@ li {
 .profile-avatar {
     aspect-ratio: 1;
 }
+
+.navigation-link:hover {
+    /* transform: translateX(30px); */
+    text-indent: 1rem;
+}
+.navigation-link {
+    transition: all .3s ease-in-out;
+}
