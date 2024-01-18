@@ -45,6 +45,9 @@ const Sidebar = () => {
             }
         } finally {
             setLoading(false);
+            setTimeout(() => {
+                window.location.reload()
+            }, 1_200);
         }
     }
 
