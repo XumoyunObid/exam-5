@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useFetch from "../Hooks/useFetch";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { Button, Spinner } from "react-bootstrap";
@@ -15,8 +15,8 @@ const Sidebar = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     
+
 
     ////////////////////////////////////////// Create group button ///////////////////////////////////////////////////
     async function handleCreateGroup(e) {
@@ -33,12 +33,8 @@ const Sidebar = () => {
                 data: { token },
             } = await axios.post("/groups", { name, password });
 
-            setInterval(() => {
-                window.location.reload()
-              }, 1_200);
             toast("Group created successfully", { type: "success" });
             axios.defaults.headers.common[reqTokenHederKey] = token;
-            navigate("/groups");
         } catch (error) {
             if (error.response.status === 400) {
                 error.response.data.errors.forEach((err) =>
