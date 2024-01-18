@@ -51,7 +51,7 @@ const Groups = () => {
       } = await axios.post("/items", { title, groupId });
       setItems((prevItems) => [...prevItems, newItem]);
 
-      setInterval(() => {
+      setTimeout(() => {
         window.location.reload()
       }, 1_200);
       toast("Item is created successfully!", { type: "success" });
@@ -201,7 +201,7 @@ const Groups = () => {
                                                 {},
                                                 { headers }
                                               );
-                                              setInterval(() => {
+                                              setTimeout(() => {
                                                 window.location.reload()
                                               }, 1_200);
                                               toast(
@@ -232,7 +232,7 @@ const Groups = () => {
                                               {},
                                               { headers }
                                             );
-                                            setInterval(() => {
+                                            setTimeout(() => {
                                               window.location.reload()
                                             }, 1_200);
                                             toast(
@@ -275,7 +275,7 @@ const Groups = () => {
                                                 error
                                               );
                                             }
-                                            setInterval(() => {
+                                            setTimeout(() => {
                                               window.location.reload()
                                             }, 1_200);
                                           }}>
@@ -347,7 +347,7 @@ const Groups = () => {
                                                 error
                                               );
                                             }
-                                            setInterval(() => {
+                                            setTimeout(() => {
                                               window.location.reload()
                                             }, 1_200);
                                           }}>
