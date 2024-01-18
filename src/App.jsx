@@ -12,46 +12,44 @@ import { useDispatch } from "react-redux";
 import { setGroups } from "./Store/Slices/group";
 
 function App() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        (async function () {
-            if (localTokenKey) {
-                const { data: groupss } = await axios.get(`/groups`);
-                dispatch(setGroups(groupss));
+  useEffect(() => {
+    (async function () {
+      if (localTokenKey) {
+        const { data: groupss } = await axios.get(`/groups`);
+        dispatch(setGroups(groupss));
+      }
+    })();
+  });
+
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/main" element={<MainLayout />}>
+          <Route
+            path="/main/groups/:groupId"
+            element={
+              <PrivateRoute>
+                <Groups />
+              </PrivateRoute>
             }
-        })();
-    });
-
-  
-    return (
-        <>
-            <Routes>
-                <Route key="main" path="/main" element={<MainLayout />}>
-                    <Route
-                        key="groups"
-                        path="/main/groups/:groupId"
-                        element={
-                            <PrivateRoute>
-                                <Groups />
-                            </PrivateRoute>
-                        }
-                    />
-                    <Route
-                        key="mainPage"
-                        path="/main"
-                        element={
-                            <PrivateRoute>
-                                <MainPage />
-                            </PrivateRoute>
-                        }
-                    />
-                </Route>
-                <Route key="login" path="/login" element={<Login />} />
-                <Route key="register" path="/register" element={<Register />} />
-            </Routes>
-        </>
-    );
+          />
+          <Route
+            path="/main"
+            element={
+              <PrivateRoute>
+                <MainPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
