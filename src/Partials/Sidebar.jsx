@@ -16,6 +16,7 @@ const Sidebar = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    
 
     ////////////////////////////////////////// Create group button ///////////////////////////////////////////////////
     async function handleCreateGroup(e) {
@@ -32,6 +33,9 @@ const Sidebar = () => {
                 data: { token },
             } = await axios.post("/groups", { name, password });
 
+            setInterval(() => {
+                window.location.reload()
+              }, 1_200);
             toast("Group created successfully", { type: "success" });
             axios.defaults.headers.common[reqTokenHederKey] = token;
             navigate("/groups");

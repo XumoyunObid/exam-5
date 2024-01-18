@@ -12,7 +12,7 @@ li {
     display: grid;
     grid-template-columns: 250px 1fr;
     grid-template-rows: 55px calc(100vh - 55px);
-    height: 100vh;
+    height: 100vh !important;
     background: url(https://nt-shopping-list.onrender.com/assets/main-bg.jpg) center / cover no-repeat fixed;
 }
 
@@ -31,4 +31,8 @@ li {
 }
 .navigation-link {
     transition: all .3s ease-in-out;
+}
+
+.members {
+    overflow: hidden !important;
 }
