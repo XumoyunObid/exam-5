@@ -47,7 +47,7 @@ const Sidebar = () => {
             setLoading(false);
             setTimeout(() => {
                 window.location.reload()
-            }, 1_200);
+            }, 1_000);
         }
     }
 

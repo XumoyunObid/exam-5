@@ -1,6 +1,6 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import useFetch from "./../Hooks/useFetch";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Modal, Button, Form } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,6 +12,11 @@ const Groups = () => {
   console.log(groups);
   const { groupId } = useParams();
   const navigate = useNavigate()
+
+  ////////////// Modal
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const { data: user } = useFetch("/auth");
   console.log(user);
@@ -52,8 +57,8 @@ const Groups = () => {
       setItems((prevItems) => [...prevItems, newItem]);
 
       setTimeout(() => {
-        window.location.reload()
-      }, 1_200);
+        window.location.reload();
+      }, 1_000);
       toast("Item is created successfully!", { type: "success" });
       axios.defaults.headers.common[reqTokenHederKey] = token;
       console.log("Item created");
@@ -111,22 +116,71 @@ const Groups = () => {
                             <Dropdown.Item>
                               <button
                                 className="btn btn-light w-100 text-start"
-                                // onClick={
-                                //     handleLogout
-                                // }
+                                onClick={handleShow}
                               >
                                 Add Member
                               </button>
                             </Dropdown.Item>
                             <Dropdown.Item>
-                              <button
+                              { group.owner._id === user._id ? <button
                                 className="btn btn-light w-100 text-start"
-                                // onClick={
-                                //     handleLogout
-                                // }
+                                onClick={async () => {
+                                  try {
+                                    const headers = {
+                                      Authorization: `Bearer ${localTokenKey}`,
+                                    };
+                                    await axios.delete(
+                                      `/groups/${groupId}`,
+                                      {},
+                                      { headers }
+                                    );
+                                    navigate(`/main`);
+                                    toast(
+                                      "Group deleted successfully!",
+                                      { type: "success" }
+                                    );
+                                    console.log(
+                                      `successfully.`
+                                    );
+                                  } catch (error) {
+                                    console.error(
+                                      `Error `,
+                                      error
+                                    );
+                                  }
+                                }}
+                              >
+                                Delete Group
+                              </button> : <button
+                                className="btn btn-light w-100 text-start"
+                                onClick={async () => {
+                                  try {
+                                    const headers = {
+                                      Authorization: `Bearer ${localTokenKey}`,
+                                    };
+                                    await axios.post(
+                                      `/groups/${groupId}/leave`,
+                                      {},
+                                      { headers }
+                                    );
+                                    navigate(`/main`);
+                                    toast(
+                                      "Left from group successfully!",
+                                      { type: "success" }
+                                    );
+                                    console.log(
+                                      `successfully.`
+                                    );
+                                  } catch (error) {
+                                    console.error(
+                                      `Error `,
+                                      error
+                                    );
+                                  }
+                                }}
                               >
                                 Leave Group
-                              </button>
+                              </button>}
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -188,75 +242,89 @@ const Groups = () => {
                                         </div>
                                       </div>
                                       <div className="d-flex gap-1">
-                                        {!item?.boughtBy && !isBought ? 
-                                        <button
-                                        className="btn btn-success"
-                                        onClick={async () => {
-                                          try {
-                                            const headers = {
-                                              Authorization: `Bearer ${localTokenKey}`,
-                                            };
-                                              await axios.post(
-                                                `/items/${item._id}/mark-as-bought`,
-                                                {},
-                                                { headers }
-                                              );
-                                              setTimeout(() => {
-                                                window.location.reload()
-                                              }, 1_200);
-                                              toast(
-                                                "Item is marked as bought successfully!",
-                                                { type: "success" }
-                                              );
-                                              console.log(
-                                                `Item with ID ${item._id} marked as bought successfully.`
-                                              );
-                                            setIsBought((prevIsBought) => !prevIsBought);
-                                          } catch (error) {
-                                            console.error(
-                                              `Error marking item with ID ${item._id} as bought:`,
-                                              error
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <i className="fa-solid fa-cart-plus"></i>
-                                      </button> : 
-                                      <button className="btn btn-warning" onClick={async () => {
-                                        try {
-                                          const headers = {
-                                            Authorization: `Bearer ${localTokenKey}`,
-                                          };
-                                            await axios.delete(
-                                              `/items/${item._id}/mark-as-bought`,
-                                              {},
-                                              { headers }
-                                            );
-                                            setTimeout(() => {
-                                              window.location.reload()
-                                            }, 1_200);
-                                            toast(
-                                              "Item is marked as not bought successfully!",
-                                              { type: "success" }
-                                            );
-                                            console.log(
-                                              `Item with ID ${item._id} marked as bought successfully.`
-                                            );
-                                          setIsBought((prevIsBought) => !prevIsBought);
-                                        } catch (error) {
-                                          console.error(
-                                            `Error marking item with ID ${item._id} as bought:`,
-                                            error
-                                          );
-                                        }
-                                      }}><i className="fa-solid fa-shop-slash"></i></button>
-                                      }
-                                      {item.owner._id === user._id && (
-                                          <button className="btn btn-danger" onClick={async () => {
-                                            try {
-                                              const headers = {
-                                                Authorization: `Bearer ${localTokenKey}`,
-                                              };
+                                        {!item?.boughtBy && !isBought ? (
+                                          <button
+                                            className="btn btn-success"
+                                            onClick={async () => {
+                                              try {
+                                                const headers = {
+                                                  Authorization: `Bearer ${localTokenKey}`,
+                                                };
+                                                await axios.post(
+                                                  `/items/${item._id}/mark-as-bought`,
+                                                  {},
+                                                  { headers }
+                                                );
+                                                setTimeout(() => {
+                                                  window.location.reload();
+                                                }, 1_000);
+                                                toast(
+                                                  "Item is marked as bought successfully!",
+                                                  { type: "success" }
+                                                );
+                                                console.log(
+                                                  `Item with ID ${item._id} marked as bought successfully.`
+                                                );
+                                                setIsBought(
+                                                  (prevIsBought) =>
+                                                    !prevIsBought
+                                                );
+                                              } catch (error) {
+                                                console.error(
+                                                  `Error marking item with ID ${item._id} as bought:`,
+                                                  error
+                                                );
+                                              }
+                                            }}
+                                          >
+                                            <i className="fa-solid fa-cart-plus"></i>
+                                          </button>
+                                        ) : (
+                                          <button
+                                            className="btn btn-warning"
+                                            onClick={async () => {
+                                              try {
+                                                const headers = {
+                                                  Authorization: `Bearer ${localTokenKey}`,
+                                                };
+                                                await axios.delete(
+                                                  `/items/${item._id}/mark-as-bought`,
+                                                  {},
+                                                  { headers }
+                                                );
+                                                setTimeout(() => {
+                                                  window.location.reload();
+                                                }, 1_000);
+                                                toast(
+                                                  "Item is marked as not bought successfully!",
+                                                  { type: "success" }
+                                                );
+                                                console.log(
+                                                  `Item with ID ${item._id} marked as bought successfully.`
+                                                );
+                                                setIsBought(
+                                                  (prevIsBought) =>
+                                                    !prevIsBought
+                                                );
+                                              } catch (error) {
+                                                console.error(
+                                                  `Error marking item with ID ${item._id} as bought:`,
+                                                  error
+                                                );
+                                              }
+                                            }}
+                                          >
+                                            <i className="fa-solid fa-shop-slash"></i>
+                                          </button>
+                                        )}
+                                        {item.owner._id === user._id && (
+                                          <button
+                                            className="btn btn-danger"
+                                            onClick={async () => {
+                                              try {
+                                                const headers = {
+                                                  Authorization: `Bearer ${localTokenKey}`,
+                                                };
                                                 await axios.delete(
                                                   `/items/${item._id}`,
                                                   {},
@@ -265,20 +333,21 @@ const Groups = () => {
                                                 toast(
                                                   "Item is deleted successfully!",
                                                   { type: "success" }
-                                                  );
+                                                );
                                                 console.log(
                                                   `Item with ID ${item._id} deleted successfully.`
                                                 );
-                                            } catch (error) {
-                                              console.error(
-                                                `Error deleting item with ID ${item._id} as bought:`,
-                                                error
-                                              );
-                                            }
-                                            setTimeout(() => {
-                                              window.location.reload()
-                                            }, 1_200);
-                                          }}>
+                                              } catch (error) {
+                                                console.error(
+                                                  `Error deleting item with ID ${item._id} as bought:`,
+                                                  error
+                                                );
+                                              }
+                                              setTimeout(() => {
+                                                window.location.reload();
+                                              }, 1_000);
+                                            }}
+                                          >
                                             <i className="fa-solid fa-x"></i>
                                           </button>
                                         )}
@@ -324,11 +393,13 @@ const Groups = () => {
                                       </div>
                                       <div className="d-flex gap-1">
                                         {user._id === group.owner._id && (
-                                          <button className="btn btn-danger" onClick={async () => {
-                                            try {
-                                              const headers = {
-                                                Authorization: `Bearer ${localTokenKey}`,
-                                              };
+                                          <button
+                                            className="btn btn-danger"
+                                            onClick={async () => {
+                                              try {
+                                                const headers = {
+                                                  Authorization: `Bearer ${localTokenKey}`,
+                                                };
                                                 await axios.delete(
                                                   `/groups/${groupId}/members/${member._id}`,
                                                   {},
@@ -337,24 +408,55 @@ const Groups = () => {
                                                 toast(
                                                   "Removed from group successfully!",
                                                   { type: "success" }
-                                                  );
+                                                );
                                                 console.log(
                                                   `deleted successfully.`
                                                 );
-                                            } catch (error) {
-                                              console.error(
-                                                `Error deleting`,
-                                                error
-                                              );
-                                            }
-                                            setTimeout(() => {
-                                              window.location.reload()
-                                            }, 1_200);
-                                          }}>
+                                              } catch (error) {
+                                                console.error(
+                                                  `Error deleting`,
+                                                  error
+                                                );
+                                              }
+                                              setTimeout(() => {
+                                                window.location.reload();
+                                              }, 1_000);
+                                            }}
+                                          >
                                             <i className="fa-solid fa-x"></i>
                                           </button>
                                         )}
                                       </div>
+                                      <Modal
+                                        size="lg"
+                                        show={show}
+                                        onHide={handleClose}
+                                      >
+                                        <Modal.Header closeButton>
+                                          <Modal.Title>Add Members</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                          <form className=" w-100">
+                                            <input
+                                              type="text"
+                                              placeholder="Search Member"
+                                              className="w-100 form-control"
+                                            />
+                                          </form>
+                                          <ul>
+                                            <li>
+                                            </li>
+                                          </ul>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                          <Button
+                                            variant="secondary"
+                                            onClick={handleClose}
+                                          >
+                                            Close
+                                          </Button>
+                                        </Modal.Footer>
+                                      </Modal>
                                     </li>
                                   );
                                 }

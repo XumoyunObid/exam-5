@@ -17,6 +17,7 @@ const MainPage = () => {
 
         try {
           await navigator.clipboard.writeText(users.username);
+          toast("Username copied successfully", { type: "success" });
         } catch (error) {
           console.error('Error copying username:', error);
         }

@@ -5,7 +5,6 @@ import groupReducer from './Slices/group';
 const store = configureStore({
   reducer: {
     group: groupReducer,
-    // item: itemReducer,
   },
 });
 
