@@ -58,7 +58,7 @@ const Groups = () => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 1_000);
+      }, 1_200);
       toast("Item is created successfully!", { type: "success" });
       axios.defaults.headers.common[reqTokenHederKey] = token;
       console.log("Item created");
@@ -257,7 +257,7 @@ const Groups = () => {
                                                 );
                                                 setTimeout(() => {
                                                   window.location.reload();
-                                                }, 1_000);
+                                                }, 1_200);
                                                 toast(
                                                   "Item is marked as bought successfully!",
                                                   { type: "success" }
@@ -294,7 +294,7 @@ const Groups = () => {
                                                 );
                                                 setTimeout(() => {
                                                   window.location.reload();
-                                                }, 1_000);
+                                                }, 1_200);
                                                 toast(
                                                   "Item is marked as not bought successfully!",
                                                   { type: "success" }
@@ -330,6 +330,9 @@ const Groups = () => {
                                                   {},
                                                   { headers }
                                                 );
+                                                setTimeout(() => {
+                                                  window.location.reload();
+                                                }, 1_200);
                                                 toast(
                                                   "Item is deleted successfully!",
                                                   { type: "success" }
@@ -343,9 +346,6 @@ const Groups = () => {
                                                   error
                                                 );
                                               }
-                                              setTimeout(() => {
-                                                window.location.reload();
-                                              }, 1_000);
                                             }}
                                           >
                                             <i className="fa-solid fa-x"></i>
@@ -420,7 +420,7 @@ const Groups = () => {
                                               }
                                               setTimeout(() => {
                                                 window.location.reload();
-                                              }, 1_000);
+                                              }, 1_200);
                                             }}
                                           >
                                             <i className="fa-solid fa-x"></i>
