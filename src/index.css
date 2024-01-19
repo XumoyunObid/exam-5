@@ -36,3 +36,13 @@ li {
 .members {
     overflow: hidden !important;
 }
+
+.not-found {
+    height: 100vh;
+    padding-block: 248px;
+}
+
+.four {
+    font-size: 200px;
+    font-weight: 700;
+}

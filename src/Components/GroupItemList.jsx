@@ -31,7 +31,6 @@ const GroupItemList = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // This effect will run when items state is updated
     console.log("Items updated:", items);
   }, [items]);
 
@@ -63,7 +62,7 @@ const GroupItemList = () => {
       }
     } finally {
       setLoading(false);
-      setTitle(""); // Clear the title after successful creation
+      setTitle(""); 
     }
   };
 
@@ -77,7 +76,6 @@ const GroupItemList = () => {
       toast("Item is marked as bought successfully!", { type: "success" });
       console.log(`Item with ID ${itemId} marked as bought successfully.`);
 
-      // Update the items state
       setItems((prevItems) =>
         prevItems.map((item) =>
           item._id === itemId ? { ...item, boughtBy: user, boughtAt: new Date() } : item
@@ -98,7 +96,6 @@ const GroupItemList = () => {
       toast("Item is marked as not bought successfully!", { type: "success" });
       console.log(`Item with ID ${itemId} marked as not bought successfully.`);
 
-      // Update the items state
       setItems((prevItems) =>
         prevItems.map((item) =>
           item._id === itemId ? { ...item, boughtBy: null, boughtAt: null } : item
@@ -118,7 +115,6 @@ const GroupItemList = () => {
       toast("Item is deleted successfully!", { type: "success" });
       console.log(`Item with ID ${itemId} deleted successfully.`);
 
-      // Update the items state
       setItems((prevItems) => prevItems.filter((item) => item._id !== itemId));
     } catch (error) {
       console.error(`Error deleting item with ID ${itemId}:`, error);

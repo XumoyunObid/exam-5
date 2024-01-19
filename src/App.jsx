@@ -10,6 +10,7 @@ import { localTokenKey } from "./constants";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setGroups } from "./Store/Slices/group";
+import NotFound from "./Pages/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
   );
